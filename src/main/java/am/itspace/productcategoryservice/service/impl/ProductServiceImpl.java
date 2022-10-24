@@ -3,8 +3,8 @@ package am.itspace.productcategoryservice.service.impl;
 import am.itspace.productcategoryservice.dto.CreateProductDto;
 import am.itspace.productcategoryservice.dto.EditProductDto;
 import am.itspace.productcategoryservice.dto.ProductResponseDto;
+import am.itspace.productcategoryservice.exception.*;
 import am.itspace.productcategoryservice.exception.Error;
-import am.itspace.productcategoryservice.exception.ObjectProcessingException;
 import am.itspace.productcategoryservice.mapper.ProductMapper;
 import am.itspace.productcategoryservice.model.Product;
 import am.itspace.productcategoryservice.repository.ProductRepository;
@@ -32,16 +32,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void save(CreateProductDto createProductDto) {
-        List<Product> products = productRepository.findAll();
-        for (Product product : products) {
-            if (product.getTitle().equals(createProductDto.getTitle()) && product.getPrice() == createProductDto.getPrice()) {
-                log.info("Product with that title and price already exists {}", product.getTitle());
-                throw new ObjectProcessingException(Error.OBJECT_ALREADY_EXISTS);
-            }
+    public ProductResponseDto save(CreateProductDto createProductDto) {
+        if (productRepository.existsByTitleAndPriceAndCategory(createProductDto.getTitle(), createProductDto.getPrice(), createProductDto.getCategory())) {
+            log.info("Product with that title and price already exists");
+            throw new ProductAlreadyExistsException(Error.PRODUCT_ALREADY_EXISTS);
         }
-        productRepository.save(productMapper.mapToEntity(createProductDto));
+        Product product = productMapper.mapToEntity(createProductDto);
+        productRepository.save(product);
         log.info("The Product was successfully stored in the database {}", createProductDto.getTitle());
+        return productMapper.mapToResponseDto(productRepository.getReferenceById(product.getId()));
     }
 
     @Override
@@ -49,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isEmpty()) {
             log.info("Product not found");
-            throw new ObjectProcessingException(Error.OBJECT_NOT_FOUND);
+            throw new ProductNotFoundException(Error.PRODUCT_NOT_FOUND);
         }
         log.info("Product successfully found {}", productOptional.get().getTitle());
         return productMapper.mapToResponseDto(productOptional.get());
@@ -60,10 +59,18 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isEmpty()) {
             log.info("Product not found");
-            throw new ObjectProcessingException(Error.OBJECT_NOT_FOUND);
+            throw new ProductNotFoundException(Error.PRODUCT_NOT_FOUND);
         }
-        Product product = productMapper.mapToEntity(editProductDto);
-        product.setId(id);
+        Product product = productOptional.get();
+        if (editProductDto.getTitle() != null) {
+            product.setTitle(editProductDto.getTitle());
+        }
+        if (editProductDto.getPrice() != null) {
+            product.setPrice(editProductDto.getPrice());
+        }
+        if (editProductDto.getCategory() != null) {
+            product.setCategory(editProductDto.getCategory());
+        }
         productRepository.save(product);
         log.info("The Product was successfully stored in the database {}", product.getTitle());
         return productMapper.mapToResponseDto(product);
@@ -73,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
     public void delete(int id) {
         if (!productRepository.existsById(id)) {
             log.info("Product not found");
-            throw new ObjectProcessingException(Error.OBJECT_NOT_FOUND);
+            throw new ProductNotFoundException(Error.PRODUCT_NOT_FOUND);
         }
         productRepository.deleteById(id);
         log.info("The product has been successfully deleted");
@@ -84,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
         List<Product> allCategories = productRepository.findAllByCategoryId(id);
         if (allCategories.isEmpty()) {
             log.info("Product not found");
-            throw new ObjectProcessingException(Error.OBJECT_NOT_FOUND);
+            throw new ProductNotFoundException(Error.PRODUCT_NOT_FOUND);
         }
         log.info("Product successfully detected");
         return productMapper.mapToResponseDtoList(allCategories);
