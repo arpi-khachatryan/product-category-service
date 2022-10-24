@@ -8,9 +8,13 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum Error {
 
-    OBJECT_NOT_FOUND(4041, HttpStatus.NOT_FOUND, "Object not found"),
+    CATEGORY_NOT_FOUND(4041, HttpStatus.NOT_FOUND, "Category not found"),
 
-    OBJECT_ALREADY_EXISTS(4042, HttpStatus.NOT_ACCEPTABLE, "Object already exists");
+    CATEGORY_ALREADY_EXISTS(4001, HttpStatus.BAD_REQUEST, "Category already exists"),
+
+    PRODUCT_NOT_FOUND(4041, HttpStatus.NOT_FOUND, "Product not found"),
+
+    PRODUCT_ALREADY_EXISTS(4001, HttpStatus.BAD_REQUEST, "Product already exists");
 
     private final Integer code;
     private final HttpStatus httpStatus;
