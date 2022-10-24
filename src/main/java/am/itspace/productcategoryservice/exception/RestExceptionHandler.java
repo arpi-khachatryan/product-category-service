@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-
     @ExceptionHandler({BaseException.class})
     public ResponseEntity<ApiError> handleIllegalArgument(BaseException ex) {
         Error error = ex.getError();
