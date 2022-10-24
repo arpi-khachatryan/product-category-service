@@ -1,5 +1,18 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/author_book_rest
+    url: jdbc:mysql://localhost:3306/product_category_service
     username: root
     password: yerevan21
+
+  liquibase:
+    change-log: classpath:db/changelog/migration.xml
+
+server:
+  servlet:
+    context-path: /api/v1
+
+
+
+
+#    liquibase:
+#    change-log: classpath:/db/changelog/migration:xml
