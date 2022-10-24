@@ -1,2 +1,15 @@
-package am.itspace.productcategoryservice.mapper;public class EditCategoryDto {
+package am.itspace.productcategoryservice.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class EditCategoryDto {
+
+    private String name;
 }
