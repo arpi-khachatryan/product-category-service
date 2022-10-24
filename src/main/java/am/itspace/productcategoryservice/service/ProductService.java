@@ -11,7 +11,7 @@ public interface ProductService {
 
     List<ProductResponseDto> getAll();
 
-    void save(CreateProductDto createProductDto);
+    ProductResponseDto save(CreateProductDto createProductDto);
 
     ProductResponseDto getById(int id);
 
