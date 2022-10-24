@@ -48,7 +48,7 @@ public class CategoryEndpoint {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/byCategory/{id}")
+    @GetMapping("/category/{id}")
     public ResponseEntity<List<ProductResponseDto>> getAllProducts(@PathVariable("id") int id) {
         return ResponseEntity.ok(productService.getByCategory(id));
     }
