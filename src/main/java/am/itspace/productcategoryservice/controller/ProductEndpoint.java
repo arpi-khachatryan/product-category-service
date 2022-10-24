@@ -5,7 +5,6 @@ import am.itspace.productcategoryservice.dto.EditProductDto;
 import am.itspace.productcategoryservice.dto.ProductResponseDto;
 import am.itspace.productcategoryservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +18,9 @@ public class ProductEndpoint {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CreateProductDto createProductDto) {
-        productService.save(createProductDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ProductResponseDto> create(@RequestBody CreateProductDto createProductDto) {
+        return ResponseEntity.ok(productService.save(createProductDto));
+//        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
