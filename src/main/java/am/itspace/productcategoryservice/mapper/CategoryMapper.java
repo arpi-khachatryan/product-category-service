@@ -1,22 +1,19 @@
 package am.itspace.productcategoryservice.mapper;
 
-import am.itspace.productcategoryservice.dto.CreateProductDto;
-import am.itspace.productcategoryservice.dto.EditProductDto;
-import am.itspace.productcategoryservice.dto.ProductResponseDto;
-import am.itspace.productcategoryservice.model.Product;
+import am.itspace.productcategoryservice.dto.*;
+import am.itspace.productcategoryservice.model.Category;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface ProductMapper {
+public interface CategoryMapper {
 
-    Product mapToEntity(CreateProductDto createProductDto);
+    Category mapToEntity(CreateCategoryDto createCategoryDto);
 
-    Product mapToEntity(EditProductDto editProductDto);
+    Category mapToEntity(EditCategoryDto editCategoryDto);
 
-    ProductResponseDto mapToResponseDto(Product product);
+    CategoryResponseDto mapToResponseDto(Category category);
 
-   List<ProductResponseDto> mapToResponseDtoList(List<Product> products);
-
+    List<CategoryResponseDto> mapToResponseDtoList(List<Category> category);
 }
