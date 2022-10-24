@@ -14,7 +14,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiError> handleIllegalArgument(BaseException ex) {
         Error error = ex.getError();
         ApiError apiError = new ApiError(error.getHttpStatus(), error.getCode(), LocalDateTime.now(), error.getMessage());
-
         return ResponseEntity.status(apiError.getStatus()).body(apiError);
     }
 }
