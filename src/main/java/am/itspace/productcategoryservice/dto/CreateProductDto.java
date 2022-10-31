@@ -14,5 +14,6 @@ public class CreateProductDto {
 
     private String title;
     private double price;
+    //    private String category;
     private Category category;
 }
