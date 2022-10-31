@@ -4,6 +4,7 @@ spring:
     username: root
     password: yerevan21
 
+
   liquibase:
     change-log: classpath:db/changelog/migration.xml
 
@@ -11,8 +12,6 @@ server:
   servlet:
     context-path: /api/v1
 
-
-
-
-#    liquibase:
-#    change-log: classpath:/db/changelog/migration:xml
+jwt:
+  secret: k2y75xxx
+  expiration: 330000
