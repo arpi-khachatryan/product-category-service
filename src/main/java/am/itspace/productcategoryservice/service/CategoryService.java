@@ -11,7 +11,7 @@ public interface CategoryService {
 
     CategoryResponseDto getById(int id);
 
-    void save(CreateCategoryDto createCategoryDto);
+    CategoryResponseDto save(CreateCategoryDto createCategoryDto);
 
     CategoryResponseDto update(int id, EditCategoryDto editCategoryDto);
 
