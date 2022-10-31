@@ -13,12 +13,13 @@ import am.itspace.productcategoryservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
@@ -33,37 +34,28 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto getById(int id) {
-        Optional<Category> categoryOptional = categoryRepository.findById(id);
-        if (categoryOptional.isEmpty()) {
-            log.info("Category not found");
-            throw new CategoryNotFoundException(Error.CATEGORY_NOT_FOUND);
-        }
-        log.info("Category successfully found {}", categoryOptional.get().getName());
-        return categoryMapper.mapToResponseDto(categoryOptional.get());
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(Error.CATEGORY_NOT_FOUND));
+        log.info("Category successfully found {}", category.getName());
+        return categoryMapper.mapToResponseDto(category);
     }
 
     @Override
-    public void save(CreateCategoryDto createCategoryDto) {
+    public CategoryResponseDto save(CreateCategoryDto createCategoryDto) {
         if (categoryRepository.existsByName(createCategoryDto.getName())) {
             log.info("Category with that name already exists {}", createCategoryDto.getName());
             throw new CategoryAlreadyExistsException(Error.CATEGORY_ALREADY_EXISTS);
         }
-        categoryRepository.save(categoryMapper.mapToEntity(createCategoryDto));
         log.info("The Category was successfully stored in the database {}", createCategoryDto.getName());
+        return categoryMapper.mapToResponseDto(categoryRepository.save(categoryMapper.mapToEntity(createCategoryDto)));
     }
 
     @Override
     public CategoryResponseDto update(int id, EditCategoryDto editCategoryDto) {
-        Optional<Category> categoryOptional = categoryRepository.findById(id);
-        if (categoryOptional.isEmpty()) {
-            log.info("Category not found");
-            throw new CategoryNotFoundException(Error.CATEGORY_NOT_FOUND);
-        }
-        Category category = categoryOptional.get();
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(Error.CATEGORY_NOT_FOUND));
+        log.info("Category with that id not found");
         if (editCategoryDto.getName() != null) {
             category.setName(editCategoryDto.getName());
         }
-        categoryRepository.save(category);
         log.info("The Category was successfully stored in the database {}", category.getName());
         return categoryMapper.mapToResponseDto(category);
     }
