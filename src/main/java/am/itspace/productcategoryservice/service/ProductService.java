@@ -15,7 +15,6 @@ public interface ProductService {
 
     ProductResponseDto getById(int id);
 
-
     ProductResponseDto update(int id, EditProductDto editProductDto);
 
     void delete(int id);
