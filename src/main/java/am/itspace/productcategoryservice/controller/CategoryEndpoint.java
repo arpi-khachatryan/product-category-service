@@ -7,6 +7,7 @@ import am.itspace.productcategoryservice.dto.ProductResponseDto;
 import am.itspace.productcategoryservice.service.CategoryService;
 import am.itspace.productcategoryservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +22,9 @@ public class CategoryEndpoint {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CreateCategoryDto createCategoryDto) {
-        categoryService.save(createCategoryDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<CategoryResponseDto> create(@RequestBody CreateCategoryDto createCategoryDto) {
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.save(createCategoryDto));
     }
 
     @GetMapping
