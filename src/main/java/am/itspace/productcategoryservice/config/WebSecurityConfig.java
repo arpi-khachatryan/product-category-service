@@ -36,10 +36,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/categories").hasAuthority(Role.ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/categories").hasAuthority(Role.ADMIN.name())
-                .antMatchers(HttpMethod.DELETE, "/categories").hasAuthority(Role.ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/categories/{id}").hasAuthority(Role.ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/products").hasAuthority(Role.USER.name())
                 .antMatchers(HttpMethod.PUT, "/products").hasAuthority(Role.USER.name())
-                .antMatchers(HttpMethod.DELETE, "/products").hasAuthority(Role.USER.name())
+                .antMatchers(HttpMethod.DELETE, "/products/{id}").hasAuthority(Role.USER.name())
                 .anyRequest().permitAll();
 
         http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
