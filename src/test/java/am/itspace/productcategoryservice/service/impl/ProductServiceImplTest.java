@@ -137,6 +137,7 @@ class ProductServiceImplTest {
     @Test
     void delete() {
         Product product = Product.builder()
+                .id(1)
                 .title("Sneakers")
                 .price(200)
                 .category(new Category(1, "shoe"))
@@ -144,8 +145,10 @@ class ProductServiceImplTest {
         when(productRepository.existsById(anyInt())).thenReturn(true);
         productRepository.existsById(product.getId());
         productRepository.deleteById(product.getId());
-        assertNotNull(productRepository.findById(product.getId()));
-//        Product product = Product.builder()
+        Optional<Object> empty = Optional.empty();
+        assertEquals(empty, productRepository.findById(product.getId()));
+
+ //        Product product = Product.builder()
 //                .title("Sneakers")
 //                .price(200)
 //                .category(new Category(1, "shoe"))
