@@ -1,0 +1,31 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:mem:product_category_service;DB_CLOSE_DELAY=-1;
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+  liquibase:
+    change-log: classpath:db/changelog/migration.xml
+
+server:
+  servlet:
+    context-path: /api/v1
+
+jwt:
+  secret: k2y75xxx
+  expiration: 330000
+
+cb:
+  url: https://cb.am/latest.json.php
+
+
