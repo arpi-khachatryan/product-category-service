@@ -89,9 +89,10 @@ class CategoryServiceImplTest {
         when(categoryRepository.existsById(anyInt())).thenReturn(true);
         categoryRepository.existsById(category.getId());
         categoryRepository.deleteById(category.getId());
+        verify(categoryRepository, times(1)).deleteById(any());
         Optional<Object> empty = Optional.empty();
         assertEquals(empty, categoryRepository.findById(category.getId()));
-//        assertNotNull(categoryRepository.findById(category.getId()));
+//        assertNull(categoryRepository.findById(category.getId()));
     }
 
     // Գիտեմ, որ սա իմաստ չունի գրել, քանի որ ռեպոում արդեն ստուգում կա, ուղղակի քանի որ նա չաշխատեց, ամեն դեպքում ստուգեցի
