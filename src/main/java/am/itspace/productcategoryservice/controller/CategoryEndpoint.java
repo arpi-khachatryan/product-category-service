@@ -4,11 +4,15 @@ import am.itspace.productcategoryservice.dto.CategoryResponseDto;
 import am.itspace.productcategoryservice.dto.CreateCategoryDto;
 import am.itspace.productcategoryservice.dto.EditCategoryDto;
 import am.itspace.productcategoryservice.dto.ProductResponseDto;
+import am.itspace.productcategoryservice.security.CurrentUser;
 import am.itspace.productcategoryservice.service.CategoryService;
 import am.itspace.productcategoryservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +24,12 @@ public class CategoryEndpoint {
 
     private final CategoryService categoryService;
     private final ProductService productService;
+    Logger log = LoggerFactory.getLogger(CategoryEndpoint.class.getName());
 
     @PostMapping
-    public ResponseEntity<CategoryResponseDto> create(@RequestBody CreateCategoryDto createCategoryDto) {
-
+    public ResponseEntity<CategoryResponseDto> create(@RequestBody CreateCategoryDto createCategoryDto,
+                                                      @AuthenticationPrincipal CurrentUser currentUser) {
+        log.info("endpoint /categories called by {}", currentUser.getUser().getEmail());
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.save(createCategoryDto));
     }
 
