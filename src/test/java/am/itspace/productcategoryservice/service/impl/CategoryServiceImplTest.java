@@ -36,31 +36,6 @@ class CategoryServiceImplTest {
     private CategoryMapper categoryMapper;
 
     @Test
-    void delete() {
-        Category category = Category.builder()
-                .id(1)
-                .name("Shoe")
-                .build();
-        when(categoryRepository.existsById(anyInt())).thenReturn(true);
-        categoryRepository.existsById(category.getId());
-        categoryRepository.deleteById(category.getId());
-        assertNotNull(categoryRepository.findById(category.getId()));
-    }
-
-    // Գիտեմ, որ սա իմաստ չունի գրել, քանի որ ռեպոում արդեն ստուգում կա, ուղղակի քանի որ նա չաշխատեց, ամեն դեպքում ստուգեցի
-    @Test
-    void deleteThrowsException() {
-        Category category = new Category(1, "shoe");
-        given(categoryRepository.existsById(anyInt())).
-                willReturn(true);
-        boolean isTrue = categoryRepository.existsById(category.getId());
-        assertTrue(isTrue);
-//        assertThatThrownBy(() -> categoryRepository.existsById(category.getId()))
-//                .isInstanceOf(CategoryNotFoundException.class)
-//                .hasMessageContaining("Category not found");
-    }
-
-    @Test
     void canSave() {
         CreateCategoryDto createCategoryDto = CreateCategoryDto.builder()
                 .name("Shoe")
@@ -103,6 +78,33 @@ class CategoryServiceImplTest {
     void getAll() {
         categoryServiceImpl.getAll();
         verify(categoryRepository).findAll();
+    }
+
+    @Test
+    void delete() {
+        Category category = Category.builder()
+                .id(1)
+                .name("Shoe")
+                .build();
+        when(categoryRepository.existsById(anyInt())).thenReturn(true);
+        categoryRepository.existsById(category.getId());
+        categoryRepository.deleteById(category.getId());
+        Optional<Object> empty = Optional.empty();
+        assertEquals(empty, categoryRepository.findById(category.getId()));
+//        assertNotNull(categoryRepository.findById(category.getId()));
+    }
+
+    // Գիտեմ, որ սա իմաստ չունի գրել, քանի որ ռեպոում արդեն ստուգում կա, ուղղակի քանի որ նա չաշխատեց, ամեն դեպքում ստուգեցի
+    @Test
+    void deleteThrowsException() {
+        Category category = new Category(1, "shoe");
+        given(categoryRepository.existsById(anyInt())).
+                willReturn(true);
+        boolean isTrue = categoryRepository.existsById(category.getId());
+        assertTrue(isTrue);
+//        assertThatThrownBy(() -> categoryRepository.existsById(category.getId()))
+//                .isInstanceOf(CategoryNotFoundException.class)
+//                .hasMessageContaining("Category not found");
     }
 
     @Test
