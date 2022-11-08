@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponceDto save(CreateUserDto createUserDto) {
         if (userRepository.existsByEmail(createUserDto.getEmail())) {
+            log.info("User with that email already exists");
             throw new RegisterException(Error.USER_REGISTRATION_FAILED);
         }
         User user = userMapper.mapToEntity(createUserDto);
@@ -44,9 +45,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(userAuthDto.getEmail()).orElseThrow(() -> new AuthenticationException(Error.USER_NOT_FOUND));
         log.info("User with that email not found");
         if (passwordEncoder.matches(userAuthDto.getPassword(), user.getPassword())) {
+            log.info("User with username {} get auth token", user.getEmail());
             return UserAuthResponceDto.builder()
-                    .token(jwtTokenUtil.generateToken(user.getEmail()))
-                    .user(userMapper.map(user))
+                    .token(jwtTokenUtil.generateToken(user.getEmail(), user))
+//                    .user(userMapper.map(user))
                     .build();
         }
         return null;
