@@ -18,7 +18,11 @@ public enum Error {
 
     USER_REGISTRATION_FAILED(4091, HttpStatus.CONFLICT, "Email already exists"),
 
-    USER_NOT_FOUND(4011, HttpStatus.UNAUTHORIZED, "User not found");
+    USER_NOT_FOUND(4011, HttpStatus.UNAUTHORIZED, "User not found"),
+
+    TO_DO_NOT_FOUND(4043, HttpStatus.NOT_FOUND, "ToDo not found"),
+
+    TO_DO_IS_NUll(4044, HttpStatus.NOT_FOUND, "ToDo is null");
 
     private final Integer code;
     private final HttpStatus httpStatus;
