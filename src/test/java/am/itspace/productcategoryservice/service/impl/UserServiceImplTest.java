@@ -109,29 +109,11 @@ class UserServiceImplTest {
 //                .role(Role.USER)
 //                .build();
 //        when(userRepository.save(any())).thenReturn(user);
-//
 //        assertThrows(RuntimeException.class, () -> {
 //            userServiceImpl.save(null);
 //        });
 //        verify(userRepository, times(0)).save(any());
     }
-
-//    @Test
-//    void existByEmail() {
-//        User user = User.builder()
-//                .id(1)
-//                .name("Tigran")
-//                .surname("Tigranyan")
-//                .email("tigran@gmail.com")
-//                .password(passwordEncoder.encode("password"))
-//                .role(Role.USER)
-//                .build();
-//        given(userRepository.existsByEmail(anyString())).willReturn(true);
-//        assertThatThrownBy(() -> userRepository.existsByEmail(user.getEmail()))
-//                .isInstanceOf(RegisterException.class)
-//                .hasMessageContaining("User with that email already exists");
-//        verify(userRepository, never()).save(user);
-//    }
 
     @Test
     void role() {
@@ -160,3 +142,20 @@ class UserServiceImplTest {
         assertEquals(Optional.of(user), userRepository.findByEmail("tigran@gmail.com"));
     }
 }
+
+//    @Test
+//    void existByEmail() {
+//        User user = User.builder()
+//                .id(1)
+//                .name("Tigran")
+//                .surname("Tigranyan")
+//                .email("tigran@gmail.com")
+//                .password(passwordEncoder.encode("password"))
+//                .role(Role.USER)
+//                .build();
+//        given(userRepository.existsByEmail(anyString())).willReturn(true);
+//        assertThatThrownBy(() -> userRepository.existsByEmail(user.getEmail()))
+//                .isInstanceOf(RegisterException.class)
+//                .hasMessageContaining("User with that email already exists");
+//        verify(userRepository, never()).save(user);
+//    }
