@@ -27,8 +27,6 @@ class UserRepositoryTest {
         userRepository.deleteAll();
     }
 
-    // Սա նորմալ աշխատում է, խնդիրը "user" բառն է, բազան չի հասկանում, ուղղակի ժամանակս քիչ է, որ հիմա փոխեմ
-
     @Test
     void findByEmail() {
         String email = "yan@gmail.com";
