@@ -95,7 +95,6 @@ class CategoryServiceImplTest {
 //        assertNull(categoryRepository.findById(category.getId()));
     }
 
-    // Գիտեմ, որ սա իմաստ չունի գրել, քանի որ ռեպոում արդեն ստուգում կա, ուղղակի քանի որ նա չաշխատեց, ամեն դեպքում ստուգեցի
     @Test
     void deleteThrowsException() {
         Category category = new Category(1, "shoe");
